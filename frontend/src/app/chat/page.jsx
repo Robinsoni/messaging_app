@@ -12,10 +12,8 @@ const Chat = () => {
 
     useEffect(() => {
         // Establish WebSocket connection
-        const newSocket = io('http://localhost:5000');
-        setSocket(newSocket);
-
-
+        const newSocket = io('http://localhost:8000');
+        setSocket(newSocket); 
         // Listen for incoming msgs
         newSocket.on('chat msg', msg => {
             console.log('received msg on client ' + msg);

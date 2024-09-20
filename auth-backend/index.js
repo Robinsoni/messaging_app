@@ -1,39 +1,27 @@
- 
 import express from "express"
-import http from "http"
-import { Server } from "socket.io"
-import dotenv from "dotenv"  
+import dotenv from "dotenv"
+import authRouter from "./routes/auth.route.js" 
+import connectToMongoDB from "./db/connectToMongoDB.js";
+import cors from "cors"; 
+
 dotenv.config();
 const PORT = process.env.PORT || 5000;
 
-
 const app = express();
-const server = http.createServer(app);
-const io = new Server(server, {
-   cors: {
-       allowedHeaders: ["*"],
-       origin: "*"
-   }
-});
+app.use(express.json()); 
 
-
-io.on("connection", (socket) => {
-   console.log('Client connected');
-   socket.on('chat msg', (msg) => {
-       console.log('Received msg ' + msg);
-
-
-       io.emit('chat msg', msg);
-   });
-})
-
-
-app.use(express.json());    
+app.use(cors({
+  credentials: true,
+  origin: [`${process.env.BE_HOST}:3000`, `${process.env.BE_HOST}:3001`]
+ })); 
+app.use('/auth', authRouter); 
 
 app.get('/', (req, res) => {
-   res.send("Welcome to HHLD Chat App!");
-}); 
-server.listen(PORT, (req, res) => {
-   
-   console.log(`Server is running at ${PORT}`);
-})
+  res.send('Congratulations HHLD Folks!');
+});
+
+app.listen(PORT, () => {
+  connectToMongoDB();
+  console.log(`Server is listening at http://localhost:${PORT}`);
+});
+

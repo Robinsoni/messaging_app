@@ -1,11 +1,10 @@
-import Chat from "./chat";
-
+/* import Chat from "./chat/page"; */
+import Auth from "./auth";
 export default function Home() {
   return (
-    <div>
-      <Chat>
-        
-      </Chat>
+    <div> 
+      <Auth> 
+      </Auth>
     </div>
   );
 }
