@@ -2,24 +2,30 @@
 import axios from "axios";
 import { useState } from "react";
 import React from 'react'
-import { useRouter } from 'next/navigation' 
+import { useRouter } from 'next/navigation'
+import { useAuthStore } from "./zustand/useAuthStore";
 
 const Auth = () => {
     const router = useRouter()
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
+    const {authName, updateAuthName} = useAuthStore();
 
     const signUpFunc = async (event) => {
-        event.preventDefault(); 
+        event.preventDefault();
         try {
             const res = await axios.post('http://localhost:5000/auth/signup', {
                 username: username,
                 password: password
-            })
+            },
+                {
+                    withCredentials: true
+                }
+            )
             if (res.data.message === "Username already exists") {
                 alert('Username already exists');
             } else {
+                updateAuthName(username);
                 router.push('/chat')
             }
         } catch (error) {
@@ -29,13 +35,14 @@ const Auth = () => {
 
 
     const loginFunc = async (event) => {
-        event.preventDefault(); 
+        event.preventDefault();
         try {
             const res = await axios.post('http://localhost:5000/auth/login', {
                 username: username,
                 password: password
-            }) 
-            router.push('/chat') 
+            });
+            updateAuthName(username);
+            router.push('/chat')
         } catch (error) {
             console.log("Error in login function : ", error.message);
         }
@@ -73,7 +80,6 @@ const Auth = () => {
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                             </div>
                         </div>
-
 
                         <div className="flex">
                             <button type="submit" onClick={signUpFunc} className="flex m-2 w-1/2 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign Up</button>
