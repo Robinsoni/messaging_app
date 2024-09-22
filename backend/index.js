@@ -26,8 +26,7 @@ io.on('connection', (socket) => {
   socket.on('chat msg', (msg) => {
     const receiverSocket = userSocketMap[msg.receiver];
     socket.emit('chat msg', msg.text);
-    console.log(" socket server received msg from ", msg.sender, " for receiver ** ", msg.receiver );
-
+    console.log(" socket server received msg from ", msg.sender, " for receiver ** ", msg.receiver ); 
     if (receiverSocket) {
       receiverSocket.emit('chat msg', msg);
     }
@@ -38,8 +37,7 @@ io.on('connection', (socket) => {
       receiver: msg.receiver
     });
   });
-});
-
+}); 
 
 app.use('/msgs',msgsRouter);
 // Define a route
