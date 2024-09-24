@@ -29,8 +29,7 @@ io.on('connection', (socket) => {
     console.log(" socket server received msg from ", msg.sender, " for receiver ** ", msg.receiver ); 
     if (receiverSocket) {
       receiverSocket.emit('chat msg', msg);
-    }
-    
+    } 
     addMsgToConversation([msg.sender, msg.receiver], {
       text: msg.text,
       sender: msg.sender,

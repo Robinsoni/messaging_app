@@ -10,7 +10,7 @@ const routes = {
     "/api/auth": "http://localhost:5000/auth",
     "/api/users": "http://localhost:5000/users",
     "/api/msgs": "http://localhost:8000/msgs"
-}
+};
 
 for (const route in routes) {
     const target = routes[route];
